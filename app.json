@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TestApp",
-    "slug": "TestApp",
+    "slug": "homeworkaid",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9f2e7617-3719-4a1d-a38d-2a3f9fdc5e82"
+      }
+    },
+    "owner": "promised23"
   }
 }
