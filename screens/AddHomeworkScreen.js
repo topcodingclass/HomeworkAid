@@ -128,7 +128,22 @@ const AddHomeworkScreen = ({ navigation }) => {
         />
 
         <View style={styles.buttonContainer}>
-          <Button
+        <Button 
+        title="Add Homework" 
+        buttonStyle={{ backgroundColor: 'rgba(39, 213, 245, 0.8)', borderRadius: 15 }} 
+        titleStyle={{ fontWeight: 'bold', fontSize: 15 }} 
+        icon={{name: 'pencil-square',type: 'font-awesome',size: 15,color: 'white',}}
+        onPress={addHomework} 
+        style={{ padding: 10, marginVertical: 5, width: 200 }} />
+
+<Button 
+        title="Cancel" 
+        buttonStyle={{ backgroundColor: 'rgba(39, 213, 245, 0.8)', borderRadius: 15 }} 
+        titleStyle={{ fontWeight: 'bold', fontSize: 15 }} 
+        icon={{name: 'arrow-circle-left',type: 'font-awesome',size: 15,color: 'white',}}
+        onPress={() => navigation.navigate('Home')}
+        style={{ padding: 10, marginVertical: 5, width: 200 }} />
+          {/* <Button
             style={styles.button}
             appearance="filled"
             onPress={addHomework}
@@ -142,7 +157,7 @@ const AddHomeworkScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('Home')}
           >
             Cancel
-          </Button>
+          </Button> */}
         </View>
       </View>
     </ImageBackground>
@@ -170,8 +185,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   buttonContainer: {
-    alignItems: 'center',
+    flex:1,
+    flexDirection:'row',
     marginTop: 20,
+    justifyContent:'space-around'
+
   },
   button: {
     marginBottom: 10,
