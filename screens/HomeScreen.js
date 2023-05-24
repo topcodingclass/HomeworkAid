@@ -15,7 +15,7 @@ const HomeScreen = ({ navigation }) => {
     const [subjectFilter, setSubjectFilter] = useState("All")
     const [homeworks, setHomeworks] = useState([])
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(['italy', 'spain', 'barcelona', 'finland']);
+    const [value, setValue] = useState(['Allcategory', 'AllSubject']);
     const [items, setItems] = useState([
         {label: 'All Category', value: 'AllCategory'},
         {label: 'Homework', value: 'Homework', parent: 'AllCategory'},
@@ -88,7 +88,7 @@ const HomeScreen = ({ navigation }) => {
     return (
         <ImageBackground source={require('../assets/background_bottom.png')} resizeMode="cover" style={{ flex: 1, width: '100%', height: '100%' }}>
           <View style={{ flex: 1, paddingTop: 40, paddingHorizontal: 20 }}>
-            <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginVertical: 20 }}>
+            <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginVertical: 20, zIndex:2 }}>
               <DropDownPicker
                 open={open}
                 value={value}
@@ -105,7 +105,7 @@ const HomeScreen = ({ navigation }) => {
                 <Icon name="plus" size={24} color="#FF6CB9" />
               </TouchableOpacity>
             </View>
-            <FlatList data={filteredHW} renderItem={renderItem}></FlatList>
+            <FlatList data={filteredHW} renderItem={renderItem} style={{zIndex:1}}></FlatList>
           </View>
         </ImageBackground>
       );

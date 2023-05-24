@@ -79,6 +79,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Welcome" component={WelcomeScreen} options={{headerShown:false}}/>
       <Stack.Screen name="Add Homework" component={AddHomeworkScreen} options={{headerShown:false}}/>
       <Stack.Screen name="User Login" component={UserLoginScreen} options={{headerShown:false}}/>
       <Stack.Screen name="User Register" component={UserSignUpScreen} options={{ headerShown: false }}/>
