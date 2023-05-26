@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, ImageBackground } from 'react-native';
-import { Button, Input } from '@rneui/themed';
+import { StyleSheet, View, ImageBackground, Text } from 'react-native';
+import { Button, Input, Slider } from '@rneui/themed';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { db } from '../firebase';
 import firebase from 'firebase/app';
@@ -9,7 +9,7 @@ const AddHomeworkScreen = ({ navigation }) => {
   const [title, setTitle] = useState('');
   const [dueDate, setDueDate] = useState('');
   const [startDate, setStartDate] = useState('');
-  const [difficulty, setDifficulty] = useState('');
+  const [difficulty, setDifficulty] = useState(1);
   const [type, setType] = useState('');
   const [subject, setSubject] = useState('');
   const [timeNeeded, setTimeNeeded] = useState('');
@@ -43,6 +43,11 @@ const AddHomeworkScreen = ({ navigation }) => {
       .catch((error) => {
         console.error('Error adding document: ', error);
       });
+  };
+
+  const handleSliderChange = (value) => {
+    const newDifficulty = Number(value); // Convert the value to a number
+    setDifficulty(newDifficulty);
   };
 
   return (
@@ -91,6 +96,8 @@ const AddHomeworkScreen = ({ navigation }) => {
           keyboardType="numeric"
         />
 
+
+
         <Input
           style={styles.input}
           placeholder="[Enter Type]"
@@ -127,22 +134,52 @@ const AddHomeworkScreen = ({ navigation }) => {
           onChangeText={setNote}
         />
 
-        <View style={styles.buttonContainer}>
-        <Button 
-        title="Add Homework" 
-        buttonStyle={{ backgroundColor: 'rgba(39, 213, 245, 0.8)', borderRadius: 15 }} 
-        titleStyle={{ fontWeight: 'bold', fontSize: 15 }} 
-        icon={{name: 'pencil-square',type: 'font-awesome',size: 15,color: 'white',}}
-        onPress={addHomework} 
-        style={{ padding: 10, marginVertical: 5, width: 200 }} />
+        <View style={{flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Text style={styles.input}>Difficulty:</Text>
+          <Slider
+            style={styles.slider}
+            value={difficulty}
+            minimumValue={1}
+            maximumValue={5}
+            step={1}
+            onValueChange={handleSliderChange}
+            thumbStyle={{ height: 20, width: 20 }}
+          />
+          <Text style={[styles.input, { marginLeft: 10 }]}>{difficulty}</Text>
+        </View>
 
-<Button 
-        title="Cancel" 
-        buttonStyle={{ backgroundColor: 'rgba(39, 213, 245, 0.8)', borderRadius: 15 }} 
-        titleStyle={{ fontWeight: 'bold', fontSize: 15 }} 
-        icon={{name: 'arrow-circle-left',type: 'font-awesome',size: 15,color: 'white',}}
-        onPress={() => navigation.navigate('Home')}
-        style={{ padding: 10, marginVertical: 5, width: 200 }} />
+        <View style={styles.container}>
+      <Slider
+        style={styles.slider}
+        value={difficulty}
+        minimumValue={1}
+        maximumValue={5}
+        minimumTrackTintColor="#FFFFFF"
+        maximumTrackTintColor="#000000"
+        step={1}
+        onValueChange={handleSliderChange}
+      />
+      <View style={styles.valueContainer}>
+        <Text style={styles.valueText}>{difficulty}</Text>
+      </View>
+    </View>
+
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Add Homework"
+            buttonStyle={{ backgroundColor: 'rgba(39, 213, 245, 0.8)', borderRadius: 15 }}
+            titleStyle={{ fontWeight: 'bold', fontSize: 15 }}
+            icon={{ name: 'pencil-square', type: 'font-awesome', size: 15, color: 'white', }}
+            onPress={addHomework}
+            style={{ padding: 10, marginVertical: 5, width: 200 }} />
+
+          <Button
+            title="Cancel"
+            buttonStyle={{ backgroundColor: 'rgba(39, 213, 245, 0.8)', borderRadius: 15 }}
+            titleStyle={{ fontWeight: 'bold', fontSize: 15 }}
+            icon={{ name: 'arrow-circle-left', type: 'font-awesome', size: 15, color: 'white', }}
+            onPress={() => navigation.navigate('Home')}
+            style={{ padding: 10, marginVertical: 5, width: 200 }} />
           {/* <Button
             style={styles.button}
             appearance="filled"
@@ -174,7 +211,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginTop:60,
+    marginTop: 60,
     paddingTop: 40,
     paddingHorizontal: 20,
   },
@@ -185,14 +222,33 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   buttonContainer: {
-    flex:1,
-    flexDirection:'row',
+    flex: 1,
+    flexDirection: 'row',
     marginTop: 20,
-    justifyContent:'space-around'
+    justifyContent: 'space-around'
 
   },
   button: {
     marginBottom: 10,
     width: 200,
+  },
+  slider: {
+    width: '60%',
+    height: 10
+  },
+  valueContainer: {
+    position: 'absolute',
+    top: -20,
+    left: '50%',
+    transform: [{ translateX: -10 }],
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    paddingVertical: 2,
+  },
+  valueText: {
+    color: '#000000',
+    fontSize: 12,
+    fontWeight: 'bold',
   },
 });
