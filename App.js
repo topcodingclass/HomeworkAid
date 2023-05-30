@@ -79,6 +79,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="Add Recurring Event" component={AddRecurringEventScreen} options={{headerShown:false}}/>
+      {/* <Stack.Screen name="Add Homework" component={AddHomeworkScreen} options={{headerShown:false}}/>
+      <Stack.Screen name="Welcome" component={WelcomeScreen} options={{headerShown:false}}/>
+      <Stack.Screen name="Home" component={HomeScreen} options={{headerShown:false}}/> */}
       <Stack.Screen name="User Login" component={UserLoginScreen} options={{headerShown:false}}/>
       <Stack.Screen name="User Register" component={UserSignUpScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="User BottomTab" component={BottomTab} options={{headerShown:false}}/>

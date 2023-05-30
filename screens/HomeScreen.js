@@ -1,29 +1,36 @@
-import { StyleSheet, Text, View, FlatList, ImageBackground } from 'react-native'
+import { StyleSheet, Text, View, FlatList, ImageBackground, TouchableOpacity } from 'react-native'
 import React, { useState, useEffect } from 'react'
 // import ReactDropdown from 'react-dropdown'
 // import {Picker} from '@react-native-picker/picker';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Button, Input } from "@rneui/themed";
-import { db } from '../firebase'
+import Icon from 'react-native-vector-icons/FontAwesome'
+import {auth, db } from '../firebase'
 
 const HomeScreen = ({ navigation }) => {
     const colours = ['#d1f8ff', '#27d5f5',]
-    const [open, setOpen] = useState(false);
-    const [homeworks, setHomeworks] = useState([])
     const [filteredHW, setFilteredHW] = useState([])
     const [subjects, setSubjects] = useState([])
     const [HWFilter, setHWFilter] = useState("All")
     const [subjectFilter, setSubjectFilter] = useState("All")
-    const [HWFilteritems, setHWFilterItems] = useState([
-        { label: 'All', value: 'All' },
-        { label: 'Homework', value: 'Homework' }
+    const [homeworks, setHomeworks] = useState([])
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState(['Allcategory', 'AllSubject']);
+    const [items, setItems] = useState([
+        {label: 'All Category', value: 'AllCategory'},
+        {label: 'Homework', value: 'Homework', parent: 'AllCategory'},
+        {label: 'Exam', value: 'Exam', parent: 'AllCategory'},
+        {label: 'Project', value: 'Project', parent: 'AllCategory'},
+
+        {label: 'All Subjects', value: 'AllSubject'},
+       
     ]);
 
     useEffect(() => {
         let homeworksFromDB = []
         let subjectsFromDB = []
-
-        db.collection('users').doc('k4UBkks0q2pL5RtjZstY').collection('homeworks').onSnapshot((querySnapshot) => {
+        console.log("##########User ID:", auth.currentUser.uid)
+        db.collection('users').doc(auth.currentUser.uid).collection('homeworks').onSnapshot((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 console.log("doc:")
                 console.log(doc.data())
@@ -79,40 +86,29 @@ const HomeScreen = ({ navigation }) => {
     )
 
     return (
-        <ImageBackground source={require('../assets/background3.png')} resizeMode="cover" style={{ flex: 1, width: '100%', height: '100%' }}>
-            <View style={{ flex: 1, paddingTop:40, paddingHorizontal:20 }}>
-                <Text style={styles.title}>Agenda Planner</Text>
-                
-                <View style={{ flex:1,flexDirection: "row", justifyContent: 'space-between' }}>
-                    <Text>Category:</Text>
-                    <DropDownPicker
-                        open={open}
-                        value={HWFilter}
-                        items={HWFilteritems}
-                        setOpen={setOpen}
-                        setValue={setHWFilter}
-                        setItems={setHWFilterItems}
-                        style={{ width: 100 }}
-                    />
-
-                    {/* <Picker
-                    // selectedValue={selectedValue}
-                    onValueChange={((option) => setHWFilter(option.value))}
-                    
-                >
-                    <Picker.Item label="All" value="All" />
-                    <Picker.Item label="Homework" value="Homework" />
-                    <Picker.Item label="Exam" value="Exam" />
-                    <Picker.Item label="Project" value="Project" />
-                </Picker> */}
-                    {/* <ReactDropdown options = {["All", "Homework", "Exam", "Project"]} value = "All" onChange={((option) => setHWFilter(option.value))}></ReactDropdown> */}
-                    <Text>Subject:</Text>
-                    {/* <ReactDropdown options = {["All", ...subjects]} value = "All" onChange={((option) => setSubjectFilter(option.value))}></ReactDropdown> */}
-                </View>
-                <FlatList data={filteredHW} renderItem={renderItem}></FlatList>
+        <ImageBackground source={require('../assets/background_bottom.png')} resizeMode="cover" style={{ flex: 1, width: '100%', height: '100%' }}>
+          <View style={{ flex: 1, paddingTop: 40, paddingHorizontal: 20 }}>
+            <View style={{ flexDirection: "row", justifyContent: 'center', alignItems: 'center', marginVertical: 20, zIndex:2 }}>
+              <DropDownPicker
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                theme="DARK"
+                multiple={true}
+                mode="BADGE"
+                badgeDotColors={["#e76f51", "#00b4d8", "#e9c46a", "#e76f51", "#8ac926", "#00b4d8", "#e9c46a"]}
+              />
+              <TouchableOpacity onPress={() => navigation.navigate("Add Homework")} style={{ marginLeft: 10 }}>
+                <Icon name="plus" size={24} color="#FF6CB9" />
+              </TouchableOpacity>
             </View>
+            <FlatList data={filteredHW} renderItem={renderItem} style={{zIndex:1}}></FlatList>
+          </View>
         </ImageBackground>
-    )
+      );
 }
 
 export default HomeScreen
